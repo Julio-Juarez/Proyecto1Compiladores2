@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menú de Navegación</title>
+    <link rel="stylesheet" href="/style/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="menu-toggle" id="menuToggle">
+        <div class="hamburger"></div>
+      </div>
+      <ul class="menu" id="menu">
+        <li><a href="#funcionalidad">Funcionalidad</a></li>
+        <li><a id="ejecutar" href="#ejecutar">Ejecutar</a></li>
+        <li><a href="#errores">Reportes</a></li>
+        <li><a href="#informacion">Informacion</a></li>
+      </ul>
+    </nav>
+
+    <br />
+
+
+    <div class="container">
+      <div class="line-numbers" id="lineNumbers"></div>
+      <textarea
+        id="editor"
+        class="textarea"
+        oninput="updateLineNumbers()"
+      ></textarea>
+    </div>
+
+    
+    <button id="hola">Enviar</button>
+    <button id="aje">ejecutar</button>
+    <div class="salida">
+      <pre id="ast"></pre>
+      <p id="salida"></p>
+    </div>
+
+    <div class="tabla">
+      <h1>Tabla de Simbolos</h1>
+      <div class="tablaSimbolos"></div>
+    </div>
+
+    <div class="erroesReporte">
+      <h1>Reporte de Errores</h1>
+      <div id="tabla-errores"></div>
+    </div>
+
+    <script src="/App/app.js"></script>
+    <script src="/App/script.js"></script>
+    <script type="module" src="prueba.js"></script>
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
