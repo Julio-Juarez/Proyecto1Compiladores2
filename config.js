@@ -1,6 +1,6 @@
 module.exports = {
     format: 'es',
-    input: './GeneradorDeArchivos/analizador.pegjs',
+    input: './GeneradorDeArchivos/analizadorProyecto.pegjs',
     dependencies: {
         'nodos': './nodos.js',
     }

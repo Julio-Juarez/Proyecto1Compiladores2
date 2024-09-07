@@ -41,105 +41,6 @@ export class Expresion  {
     }
 }
     
-export class OperacionBinaria extends Expresion {
-
-    /**
-    * @param {Object} options
-    * @param {Expresion} options.izq Expresion izquierda de la operacion
- * @param {Expresion} options.der Expresion derecha de la operacion
- * @param {string} options.op Operador de la operacion
-    */
-    constructor({ izq, der, op }) {
-        super();
-        
-        /**
-         * Expresion izquierda de la operacion
-         * @type {Expresion}
-        */
-        this.izq = izq;
-
-
-        /**
-         * Expresion derecha de la operacion
-         * @type {Expresion}
-        */
-        this.der = der;
-
-
-        /**
-         * Operador de la operacion
-         * @type {string}
-        */
-        this.op = op;
-
-    }
-
-    /**
-     * @param {BaseVisitor} visitor
-     */
-    accept(visitor) {
-        return visitor.visitOperacionBinaria(this);
-    }
-}
-    
-export class OperacionUnaria extends Expresion {
-
-    /**
-    * @param {Object} options
-    * @param {Expresion} options.exp Expresion de la operacion
- * @param {string} options.op Operador de la operacion
-    */
-    constructor({ exp, op }) {
-        super();
-        
-        /**
-         * Expresion de la operacion
-         * @type {Expresion}
-        */
-        this.exp = exp;
-
-
-        /**
-         * Operador de la operacion
-         * @type {string}
-        */
-        this.op = op;
-
-    }
-
-    /**
-     * @param {BaseVisitor} visitor
-     */
-    accept(visitor) {
-        return visitor.visitOperacionUnaria(this);
-    }
-}
-    
-export class Agrupacion extends Expresion {
-
-    /**
-    * @param {Object} options
-    * @param {Expresion} options.exp Expresion agrupada
-    */
-    constructor({ exp }) {
-        super();
-        
-        /**
-         * Expresion agrupada
-         * @type {Expresion}
-        */
-        this.exp = exp;
-
-    }
-
-    /**
-     * @param {BaseVisitor} visitor
-     */
-    accept(visitor) {
-        return visitor.visitAgrupacion(this);
-    }
-}
-    
 export class Numero extends Expresion {
 
     /**
@@ -169,21 +70,29 @@ export class DeclaracionVariable extends Expresion {
 
     /**
     * @param {Object} options
-    * @param {string} options.id Identificador de la variable
- * @param {Expresion} options.exp Expresion de la variable
+    * @param {string} options.tipo Tipo de variable
+ * @param {String} options.id Nombre de identificador 
+ * @param {Expresion} options.exp Valor de la variable
     */
-    constructor({ id, exp }) {
+    constructor({ tipo, id, exp }) {
         super();
         
         /**
-         * Identificador de la variable
+         * Tipo de variable
          * @type {string}
+        */
+        this.tipo = tipo;
+
+
+        /**
+         * Nombre de identificador 
+         * @type {String}
         */
         this.id = id;
 
 
         /**
-         * Expresion de la variable
+         * Valor de la variable
          * @type {Expresion}
         */
         this.exp = exp;
@@ -198,17 +107,25 @@ export class DeclaracionVariable extends Expresion {
     }
 }
     
-export class ReferenciaVariable extends Expresion {
+export class DeclaracionVariableSinValor extends Expresion {
 
     /**
     * @param {Object} options
-    * @param {string} options.id Identificador de la variable
+    * @param {String} options.tipo tipo de la variable
+ * @param {string} options.id identificador de variable
     */
-    constructor({ id }) {
+    constructor({ tipo, id }) {
         super();
         
         /**
-         * Identificador de la variable
+         * tipo de la variable
+         * @type {String}
+        */
+        this.tipo = tipo;
+
+
+        /**
+         * identificador de variable
          * @type {string}
         */
         this.id = id;
@@ -219,79 +136,29 @@ export class ReferenciaVariable extends Expresion {
      * @param {BaseVisitor} visitor
      */
     accept(visitor) {
-        return visitor.visitReferenciaVariable(this);
+        return visitor.visitDeclaracionVariableSinValor(this);
     }
 }
     
-export class Print extends Expresion {
+export class AsignacionValor extends Expresion {
 
     /**
     * @param {Object} options
-    * @param {Expresion} options.exp Expresion a imprimir
-    */
-    constructor({ exp }) {
-        super();
-        
-        /**
-         * Expresion a imprimir
-         * @type {Expresion}
-        */
-        this.exp = exp;
-
-    }
-
-    /**
-     * @param {BaseVisitor} visitor
-     */
-    accept(visitor) {
-        return visitor.visitPrint(this);
-    }
-}
-    
-export class ExpresionStmt extends Expresion {
-
-    /**
-    * @param {Object} options
-    * @param {Expresion} options.exp Expresion a evaluar
-    */
-    constructor({ exp }) {
-        super();
-        
-        /**
-         * Expresion a evaluar
-         * @type {Expresion}
-        */
-        this.exp = exp;
-
-    }
-
-    /**
-     * @param {BaseVisitor} visitor
-     */
-    accept(visitor) {
-        return visitor.visitExpresionStmt(this);
-    }
-}
-    
-export class Asignacion extends Expresion {
-
-    /**
-    * @param {Object} options
-    * @param {String} options.id nombre del identificador
- * @param {Expresion} options.asig Expresion a asignar
+    * @param {String} options.id Nombre de identificador
+ * @param {Expresion} options.asig Valor nuevo a la variable
     */
     constructor({ id, asig }) {
         super();
         
         /**
-         * nombre del identificador
+         * Nombre de identificador
          * @type {String}
         */
         this.id = id;
 
 
         /**
-         * Expresion a asignar
+         * Valor nuevo a la variable
          * @type {Expresion}
         */
         this.asig = asig;
@@ -302,107 +169,8 @@ export class Asignacion extends Expresion {
      * @param {BaseVisitor} visitor
      */
     accept(visitor) {
-        return visitor.visitAsignacion(this);
+        return visitor.visitAsignacionValor(this);
     }
 }
     
-export class Bloque extends Expresion {
-
-    /**
-    * @param {Object} options
-    * @param {Expresion[]} options.dcls Bloque de Declaraciones
-    */
-    constructor({ dcls }) {
-        super();
-        
-        /**
-         * Bloque de Declaraciones
-         * @type {Expresion[]}
-        */
-        this.dcls = dcls;
-
-    }
-
-    /**
-     * @param {BaseVisitor} visitor
-     */
-    accept(visitor) {
-        return visitor.visitBloque(this);
-    }
-}
-    
-export class If extends Expresion {
-
-    /**
-    * @param {Object} options
-    * @param {Expresion} options.cond condicion del if
- * @param {Expresion} options.stmtIf Expresiondes del if
- * @param {Expresion|undefined} options.stmtElse Expresiones del else
-    */
-    constructor({ cond, stmtIf, stmtElse }) {
-        super();
-        
-        /**
-         * condicion del if
-         * @type {Expresion}
-        */
-        this.cond = cond;
-
-
-        /**
-         * Expresiondes del if
-         * @type {Expresion}
-        */
-        this.stmtIf = stmtIf;
-
-
-        /**
-         * Expresiones del else
-         * @type {Expresion|undefined}
-        */
-        this.stmtElse = stmtElse;
-
-    }
-
-    /**
-     * @param {BaseVisitor} visitor
-     */
-    accept(visitor) {
-        return visitor.visitIf(this);
-    }
-}
-    
-export class While extends Expresion {
-
-    /**
-    * @param {Object} options
-    * @param {Expresion} options.cond condicion del while
- * @param {Expresion} options.stmt Expresiondes del while
-    */
-    constructor({ cond, stmt }) {
-        super();
-        
-        /**
-         * condicion del while
-         * @type {Expresion}
-        */
-        this.cond = cond;
-
-
-        /**
-         * Expresiondes del while
-         * @type {Expresion}
-        */
-        this.stmt = stmt;
-
-    }
-
-    /**
-     * @param {BaseVisitor} visitor
-     */
-    accept(visitor) {
-        return visitor.visitWhile(this);
-    }
-}
-    
-export default { Expresion, OperacionBinaria, OperacionUnaria, Agrupacion, Numero, DeclaracionVariable, ReferenciaVariable, Print, ExpresionStmt, Asignacion, Bloque, If, While }
+export default { Expresion, Numero, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor }

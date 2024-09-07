@@ -1,5 +1,5 @@
 
-import { parse } from './GeneradorDeArchivos/analizador.js'
+import { parse } from './GeneradorDeArchivos/analizadorProyecto.js'
 
 import { InterpreterVisitor } from './Interprete/interprete.js'
 
@@ -10,27 +10,28 @@ const salida = document.getElementById('salida')
 
 btn.addEventListener('click', () => {
 
-    try {
+    
         const codigoFuente = editor.value
     const sentencias = parse(codigoFuente)
-    //ast.innerHTML = JSON.stringify(sentencias, null, 2)
+    ast.innerHTML = JSON.stringify(sentencias, null, 2)
 
-    const interprete = new InterpreterVisitor()
+    //const interprete = new InterpreterVisitor()
 
     // for (const sentencia of sentencias) {
     //     sentencia.accept(interprete)
     // }
-    console.log({ sentencias })
-    sentencias.forEach(sentencia => sentencia.accept(interprete))
+    //console.log({ sentencias })
+    //sentencias.forEach(sentencia => sentencia.accept(interprete))
 
-    salida.innerHTML = interprete.salida
+    //salida.innerHTML = interprete.salida
       
-    ast.innerHTML = JSON.stringify(sentencias, null, 2)
+    //ast.innerHTML = JSON.stringify(sentencias, null, 2)
     
-    } catch (error) {
+    //} catch (error) {
 
-        const linea=error.location.start.line
-        const column=error.location.start.column
+        console.log(error);
+        //const linea=error.location.start.line
+        /*const column=error.location.start.column
       
         const tablaErroresHTML = `
         <table>
@@ -55,8 +56,8 @@ btn.addEventListener('click', () => {
     `;
     document.getElementById("tabla-errores").innerHTML = tablaErroresHTML;
 
-        
-    }
+        */
+   // }
     
     
 })

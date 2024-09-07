@@ -4,40 +4,16 @@
  * @typedef {import('./nodos').Expresion} Expresion
 
 
- * @typedef {import('./nodos').OperacionBinaria} OperacionBinaria
-
-
- * @typedef {import('./nodos').OperacionUnaria} OperacionUnaria
-
-
- * @typedef {import('./nodos').Agrupacion} Agrupacion
-
-
  * @typedef {import('./nodos').Numero} Numero
 
 
  * @typedef {import('./nodos').DeclaracionVariable} DeclaracionVariable
 
 
- * @typedef {import('./nodos').ReferenciaVariable} ReferenciaVariable
+ * @typedef {import('./nodos').DeclaracionVariableSinValor} DeclaracionVariableSinValor
 
 
- * @typedef {import('./nodos').Print} Print
-
-
- * @typedef {import('./nodos').ExpresionStmt} ExpresionStmt
-
-
- * @typedef {import('./nodos').Asignacion} Asignacion
-
-
- * @typedef {import('./nodos').Bloque} Bloque
-
-
- * @typedef {import('./nodos').If} If
-
-
- * @typedef {import('./nodos').While} While
+ * @typedef {import('./nodos').AsignacionValor} AsignacionValor
 
  */
 
@@ -55,33 +31,6 @@ export class BaseVisitor {
      */
     visitExpresion(node) {
         throw new Error('Metodo visitExpresion no implementado');
-    }
-    
-
-    /**
-     * @param {OperacionBinaria} node
-     * @returns {any}
-     */
-    visitOperacionBinaria(node) {
-        throw new Error('Metodo visitOperacionBinaria no implementado');
-    }
-    
-
-    /**
-     * @param {OperacionUnaria} node
-     * @returns {any}
-     */
-    visitOperacionUnaria(node) {
-        throw new Error('Metodo visitOperacionUnaria no implementado');
-    }
-    
-
-    /**
-     * @param {Agrupacion} node
-     * @returns {any}
-     */
-    visitAgrupacion(node) {
-        throw new Error('Metodo visitAgrupacion no implementado');
     }
     
 
@@ -104,65 +53,20 @@ export class BaseVisitor {
     
 
     /**
-     * @param {ReferenciaVariable} node
+     * @param {DeclaracionVariableSinValor} node
      * @returns {any}
      */
-    visitReferenciaVariable(node) {
-        throw new Error('Metodo visitReferenciaVariable no implementado');
+    visitDeclaracionVariableSinValor(node) {
+        throw new Error('Metodo visitDeclaracionVariableSinValor no implementado');
     }
     
 
     /**
-     * @param {Print} node
+     * @param {AsignacionValor} node
      * @returns {any}
      */
-    visitPrint(node) {
-        throw new Error('Metodo visitPrint no implementado');
-    }
-    
-
-    /**
-     * @param {ExpresionStmt} node
-     * @returns {any}
-     */
-    visitExpresionStmt(node) {
-        throw new Error('Metodo visitExpresionStmt no implementado');
-    }
-    
-
-    /**
-     * @param {Asignacion} node
-     * @returns {any}
-     */
-    visitAsignacion(node) {
-        throw new Error('Metodo visitAsignacion no implementado');
-    }
-    
-
-    /**
-     * @param {Bloque} node
-     * @returns {any}
-     */
-    visitBloque(node) {
-        throw new Error('Metodo visitBloque no implementado');
-    }
-    
-
-    /**
-     * @param {If} node
-     * @returns {any}
-     */
-    visitIf(node) {
-        throw new Error('Metodo visitIf no implementado');
-    }
-    
-
-    /**
-     * @param {While} node
-     * @returns {any}
-     */
-    visitWhile(node) {
-        throw new Error('Metodo visitWhile no implementado');
+    visitAsignacionValor(node) {
+        throw new Error('Metodo visitAsignacionValor no implementado');
     }
     
 }

@@ -13,9 +13,56 @@ export class InterpreterVisitor extends BaseVisitor {
     }
 
     /**
+      * @type {BaseVisitor['visitNumero']}
+      */
+    visitNumero(node) {
+        return node.valor.accept(this);
+    }
+
+    /**
+      * @type {BaseVisitor['visitDeclaracionVariable']}
+      */
+    
+    visitDeclaracionVariable(node) {
+        
+        
+        const tipoVariable = node.tipo;
+        const nombreVariable = node.id;
+        const valorVariable = node.exp.accept(this);
+
+        this.entornoActual.setVariable(tipoVariable ,nombreVariable, valorVariable);
+
+        
+    }
+    
+    /**
+      * @type {BaseVisitor['visitDeclaracionVariableSinValor']}
+      */
+    visitDeclaracionVariableSinValor(node) {
+        const tipoVariable = node.tipo;
+        const nombreVariable = node.id;
+
+        this.entornoActual.setVariable(tipoVariable ,nombreVariable,null);
+    }
+    
+    /**
+      * @type {BaseVisitor['visitAsignacionValor']}
+      */
+    visitAsignacionValor(node) {
+        
+        const valor = node.asig.accept(this);
+        const nombreVariable = node.id;
+        
+        this.entornoActual.asignacionVariable(nombreVariable,valor);
+        
+        return valor;
+        //throw new Error('Metodo visitAsignacionValor no implementado');
+    }
+
+    /**
       * @type {BaseVisitor['visitOperacionBinaria']}
       */
-    visitOperacionBinaria(node) {
+    /*visitOperacionBinaria(node) {
         const izq = node.izq.accept(this);
         const der = node.der.accept(this);
 
@@ -44,11 +91,11 @@ export class InterpreterVisitor extends BaseVisitor {
                 throw new Error(`Operador no soportado: ${node.op}`);
         }
     }
-
+      */
     /**
       * @type {BaseVisitor['visitOperacionUnaria']}
       */
-    visitOperacionUnaria(node) {
+    /*visitOperacionUnaria(node) {
         const exp = node.exp.accept(this);
 
         switch (node.op) {
@@ -57,75 +104,72 @@ export class InterpreterVisitor extends BaseVisitor {
             default:
                 throw new Error(`Operador no soportado: ${node.op}`);
         }
-    }
+    }*/
 
     /**
       * @type {BaseVisitor['visitAgrupacion']}
       */
-    visitAgrupacion(node) {
+    /*visitAgrupacion(node) {
         return node.exp.accept(this);
-    }
+    }*/
 
-    /**
-      * @type {BaseVisitor['visitNumero']}
-      */
-    visitNumero(node) {
-        return node.valor;
-    }
+    
 
 
     /**
      * @type {BaseVisitor['visitDeclaracionVariable']}
      */
-    visitDeclaracionVariable(node) {
+    /*visitDeclaracionVariable(node) {
         const nombreVariable = node.id;
         const valorVariable = node.exp.accept(this);
 
         this.entornoActual.setVariable(nombreVariable, valorVariable);
     }
+        */
 
 
     /**
       * @type {BaseVisitor['visitReferenciaVariable']}
       */
-    visitReferenciaVariable(node) {
+    /*visitReferenciaVariable(node) {
         const nombreVariable = node.id;
         return this.entornoActual.getVariable(nombreVariable);
-    }
+    }/*
 
 
     /**
       * @type {BaseVisitor['visitPrint']}
       */
-    visitPrint(node) {
+    /*visitPrint(node) {
         const valor = node.exp.accept(this);
         this.salida += valor + '\n';
-    }
+    }*/
 
 
     /**
       * @type {BaseVisitor['visitExpresionStmt']}
       */
-    visitExpresionStmt(node) {
+    /*visitExpresionStmt(node) {
         node.exp.accept(this);
-    }
+    }*/
 
 
     /**
       * @type {BaseVisitor['visitAsignacion']}
       */
-    visitAsignacion(node) {
+    /*visitAsignacion(node) {
 
         const valor = node.asig.accept(this);
         const nombreVariable = node.id;
         
         this.entornoActual.setVariable(nombreVariable,valor);
         return valor;
-    }
+    }*/
 
     /**
       * @type {BaseVisitor['visitBloque']}
       */
+    /*
     visitBloque(node){
         const entornoAnterior = this.entornoActual;
         this.entornoActual= new Entorno(entornoAnterior);
@@ -134,12 +178,12 @@ export class InterpreterVisitor extends BaseVisitor {
 
         this.entornoActual= entornoAnterior;
 
-    }
+    }*/
 
     /**
       * @type {BaseVisitor['visitIf']}
       */
-    visitIf(node) {
+    /*visitIf(node) {
 
         const cond = node.cond.accept(this);
 
@@ -152,16 +196,17 @@ export class InterpreterVisitor extends BaseVisitor {
         }
         throw new Error('Metodo visitIf no implementado');
     }
-
+*/
     /**
       * @type {BaseVisitor['visitWhile']}
       */
-    visitWhile(node){
+ /*   visitWhile(node){
         
         while (node.cond.accept(this)) {
             node.stmt.accept(this);
         }
 
     }
+        */
 
 }

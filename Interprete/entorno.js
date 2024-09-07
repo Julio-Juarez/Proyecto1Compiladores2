@@ -11,12 +11,13 @@ export class Entorno {
     }
 
     /**
+     * @param {string} tipo
      * @param {string} nombre
      * @param {any} valor
      */
-    setVariable(nombre, valor) {
+    setVariable(tipo,nombre, valor) {
         //si algo ya esta declarado lanzar error
-        this.valores[nombre] = valor;
+        this.valores[nombre] = {tipo,valor};
     }
 
     /**
@@ -46,7 +47,7 @@ export class Entorno {
         const valorActual=this.valores[nombre];
 
         if(valorActual != undefined){
-            this.valores[nombre]=valor;
+            this.valores[nombre].valor=valor;
         }
         if (!valorActual && this.padre) {
             this.padre.asignacionVariable(nombre,valor);
