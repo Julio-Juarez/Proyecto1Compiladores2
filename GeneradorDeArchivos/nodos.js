@@ -173,4 +173,243 @@ export class AsignacionValor extends Expresion {
     }
 }
     
-export default { Expresion, Numero, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor }
+export class Print extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.exp Expresion principal a imprimir
+ * @param {Expresion[]} options.expansion Arreglo de expresiones a imprimir
+    */
+    constructor({ exp, expansion }) {
+        super();
+        
+        /**
+         * Expresion principal a imprimir
+         * @type {Expresion}
+        */
+        this.exp = exp;
+
+
+        /**
+         * Arreglo de expresiones a imprimir
+         * @type {Expresion[]}
+        */
+        this.expansion = expansion;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitPrint(this);
+    }
+}
+    
+export class ExpresionSentencia extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.exp Expresion a evaluar
+    */
+    constructor({ exp }) {
+        super();
+        
+        /**
+         * Expresion a evaluar
+         * @type {Expresion}
+        */
+        this.exp = exp;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitExpresionSentencia(this);
+    }
+}
+    
+export class Bloque extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion[]} options.dcls Expresion a evaluar
+    */
+    constructor({ dcls }) {
+        super();
+        
+        /**
+         * Expresion a evaluar
+         * @type {Expresion[]}
+        */
+        this.dcls = dcls;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitBloque(this);
+    }
+}
+    
+export class OperacionLogica extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.izq Expresion izquierda de la operacion
+ * @param {Expresion} options.der Expresion derecha de la operacion
+ * @param {string} options.op Operador de la operacion
+    */
+    constructor({ izq, der, op }) {
+        super();
+        
+        /**
+         * Expresion izquierda de la operacion
+         * @type {Expresion}
+        */
+        this.izq = izq;
+
+
+        /**
+         * Expresion derecha de la operacion
+         * @type {Expresion}
+        */
+        this.der = der;
+
+
+        /**
+         * Operador de la operacion
+         * @type {string}
+        */
+        this.op = op;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitOperacionLogica(this);
+    }
+}
+    
+export class SumaYResta extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.izq Expresion izquierda de la operacion
+ * @param {Expresion} options.der Expresion derecha de la operacion
+ * @param {string} options.op Operador de la operacion
+    */
+    constructor({ izq, der, op }) {
+        super();
+        
+        /**
+         * Expresion izquierda de la operacion
+         * @type {Expresion}
+        */
+        this.izq = izq;
+
+
+        /**
+         * Expresion derecha de la operacion
+         * @type {Expresion}
+        */
+        this.der = der;
+
+
+        /**
+         * Operador de la operacion
+         * @type {string}
+        */
+        this.op = op;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitSumaYResta(this);
+    }
+}
+    
+export class MultiplicacionYDivision extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.izq Expresion izquierda de la operacion
+ * @param {Expresion} options.der Expresion derecha de la operacion
+ * @param {string} options.op Operador de la operacion multiplicacion o division
+    */
+    constructor({ izq, der, op }) {
+        super();
+        
+        /**
+         * Expresion izquierda de la operacion
+         * @type {Expresion}
+        */
+        this.izq = izq;
+
+
+        /**
+         * Expresion derecha de la operacion
+         * @type {Expresion}
+        */
+        this.der = der;
+
+
+        /**
+         * Operador de la operacion multiplicacion o division
+         * @type {string}
+        */
+        this.op = op;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitMultiplicacionYDivision(this);
+    }
+}
+    
+export class OperacionUnaria extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.exp Expresion de la operacion
+ * @param {string} options.op Operador de la operacion Unaria
+    */
+    constructor({ exp, op }) {
+        super();
+        
+        /**
+         * Expresion de la operacion
+         * @type {Expresion}
+        */
+        this.exp = exp;
+
+
+        /**
+         * Operador de la operacion Unaria
+         * @type {string}
+        */
+        this.op = op;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitOperacionUnaria(this);
+    }
+}
+    
+export default { Expresion, Numero, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor, Print, ExpresionSentencia, Bloque, OperacionLogica, SumaYResta, MultiplicacionYDivision, OperacionUnaria }
