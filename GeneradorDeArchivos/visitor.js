@@ -51,6 +51,18 @@
 
  * @typedef {import('./nodos').Negacion} Negacion
 
+
+ * @typedef {import('./nodos').If} If
+
+
+ * @typedef {import('./nodos').ElseIfExp} ElseIfExp
+
+
+ * @typedef {import('./nodos').While} While
+
+
+ * @typedef {import('./nodos').For} For
+
  */
 
 
@@ -211,6 +223,42 @@ export class BaseVisitor {
      */
     visitNegacion(node) {
         throw new Error('Metodo visitNegacion no implementado');
+    }
+    
+
+    /**
+     * @param {If} node
+     * @returns {any}
+     */
+    visitIf(node) {
+        throw new Error('Metodo visitIf no implementado');
+    }
+    
+
+    /**
+     * @param {ElseIfExp} node
+     * @returns {any}
+     */
+    visitElseIfExp(node) {
+        throw new Error('Metodo visitElseIfExp no implementado');
+    }
+    
+
+    /**
+     * @param {While} node
+     * @returns {any}
+     */
+    visitWhile(node) {
+        throw new Error('Metodo visitWhile no implementado');
+    }
+    
+
+    /**
+     * @param {For} node
+     * @returns {any}
+     */
+    visitFor(node) {
+        throw new Error('Metodo visitFor no implementado');
     }
     
 }

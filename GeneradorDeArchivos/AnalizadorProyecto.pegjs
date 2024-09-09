@@ -16,7 +16,11 @@
       'ReferenciaVariable':nodos.ReferenciaVariable,
       'TerminalesExpCadena':nodos.TerminalesExpCadena,
       'ModIgualacion':nodos.ModIgualacion,
-      'Negacion':nodos.Negacion
+      'Negacion':nodos.Negacion,
+      'If':nodos.If,
+      'ElseIfExp': nodos.ElseIfExp,
+      'While':nodos.While,
+      'For':nodos.For
       
 
 
@@ -43,8 +47,18 @@ DeclaracionVariable = tipo:Tipo _ id:Identificador _ "=" _ exp:Expresion _ ";" {
 
 Sentencia = "System.out.println" _ "(" _ exp:Expresion _ expansion:(_"," extra:Expresion _ {return {Expresion:extra}} )* ")" _ ";" { return crearNodo('Print',{exp,expansion})}//--
 / exp:Expresion _ ";" { return crearNodo('ExpresionSentencia',{exp})}//--
-/"{" _ dcls:Declaracion* _ "}" { return crearNodo('Bloque', {dcls})}//--
-//"if" _ "(" _ cond:Expresion _ ")" _ stmtIf:Sentencia stmtIfElse:( _ "else"_"if" _ stmtIfElse:Sentencia _ {return stmtElse})?  stmtElse:( _ "else" _ stmtElse:Sentencia _ {return stmtElse})? {return crearNodo('If',{cond,stmtIf,stmtIfElse,stmtElse})} 
+/ "{" _ dcls:Declaracion* _ "}" { return crearNodo('Bloque', {dcls})}//--
+/ "if" _ "(" _ cond:Expresion _ ")" _ stmtIf:Sentencia _ stmtIfElse:ElseIf*  _ stmtElse:( _ "else" _ stmtElse:Sentencia _ {return stmtElse})? {return crearNodo('If',{cond,stmtIf,stmtIfElse,stmtElse})} 
+/ "while" _ "(" _ cond:Expresion _ ")" _ stmt:Sentencia {return crearNodo('While',{cond,stmt})}
+/ "for" _ "(" _ init:ForInit _ cond:Expresion _ ";" _ inc:Expresion _ ")" _ stmt:Sentencia {
+      return crearNodo('For', { init, cond, inc, stmt })
+    }
+
+ForInit = dcl:DeclaracionVariable { return dcl }
+        / exp:Expresion _ ";" { return exp }
+        / ";" { return null }
+
+ElseIf= _ "else"_"if" _"(" cond:Expresion ")" _ stmtElseIf:Sentencia { return crearNodo('ElseIfExp',{cond,stmtElseIf})}
 
 Expresion = Asignacion
 
@@ -119,7 +133,7 @@ Numero =
    "(" _ exp:Expresion _ ")" { return crearNodo('Agrupacion', { exp }) }//--
   / !(Boolean) id:Identificador { return crearNodo('ReferenciaVariable', { id }) }//--
   / [0-9]+"." [0-9]* {return crearNodo('TerminalesExp', { tipo:"Float",valor: parseFloat(text(), 10) })}//
-  /[0-9]+ {return crearNodo('TerminalesExp', {tipo:"Entero" ,valor: parseFloat(text(), 10) })}//
+  / [0-9]+ {return crearNodo('TerminalesExp', {tipo:"Entero" ,valor: parseFloat(text(), 10) })}//
   / String
   / Char
   / Boolean
@@ -170,5 +184,8 @@ Reservadas=
   / "char" 
   / "var"
   / "for"
+  / "else"
+  / "if"
+  / "while" 
 
 
