@@ -4,7 +4,7 @@
  * @typedef {import('./nodos').Expresion} Expresion
 
 
- * @typedef {import('./nodos').Numero} Numero
+ * @typedef {import('./nodos').TerminalesExp} TerminalesExp
 
 
  * @typedef {import('./nodos').DeclaracionVariable} DeclaracionVariable
@@ -36,6 +36,21 @@
 
  * @typedef {import('./nodos').OperacionUnaria} OperacionUnaria
 
+
+ * @typedef {import('./nodos').Agrupacion} Agrupacion
+
+
+ * @typedef {import('./nodos').ReferenciaVariable} ReferenciaVariable
+
+
+ * @typedef {import('./nodos').TerminalesExpCadena} TerminalesExpCadena
+
+
+ * @typedef {import('./nodos').ModIgualacion} ModIgualacion
+
+
+ * @typedef {import('./nodos').Negacion} Negacion
+
  */
 
 
@@ -56,11 +71,11 @@ export class BaseVisitor {
     
 
     /**
-     * @param {Numero} node
+     * @param {TerminalesExp} node
      * @returns {any}
      */
-    visitNumero(node) {
-        throw new Error('Metodo visitNumero no implementado');
+    visitTerminalesExp(node) {
+        throw new Error('Metodo visitTerminalesExp no implementado');
     }
     
 
@@ -151,6 +166,51 @@ export class BaseVisitor {
      */
     visitOperacionUnaria(node) {
         throw new Error('Metodo visitOperacionUnaria no implementado');
+    }
+    
+
+    /**
+     * @param {Agrupacion} node
+     * @returns {any}
+     */
+    visitAgrupacion(node) {
+        throw new Error('Metodo visitAgrupacion no implementado');
+    }
+    
+
+    /**
+     * @param {ReferenciaVariable} node
+     * @returns {any}
+     */
+    visitReferenciaVariable(node) {
+        throw new Error('Metodo visitReferenciaVariable no implementado');
+    }
+    
+
+    /**
+     * @param {TerminalesExpCadena} node
+     * @returns {any}
+     */
+    visitTerminalesExpCadena(node) {
+        throw new Error('Metodo visitTerminalesExpCadena no implementado');
+    }
+    
+
+    /**
+     * @param {ModIgualacion} node
+     * @returns {any}
+     */
+    visitModIgualacion(node) {
+        throw new Error('Metodo visitModIgualacion no implementado');
+    }
+    
+
+    /**
+     * @param {Negacion} node
+     * @returns {any}
+     */
+    visitNegacion(node) {
+        throw new Error('Metodo visitNegacion no implementado');
     }
     
 }

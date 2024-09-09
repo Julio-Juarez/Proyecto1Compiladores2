@@ -1,7 +1,7 @@
 {
   const crearNodo = (tipoNodo, props) =>{
     const tipos = {
-      'numero': nodos.Numero,
+      'TerminalesExp': nodos.TerminalesExp,
       'DeclaracionVariable':nodos.DeclaracionVariable,
       'DeclaracionVariableSinValor': nodos.DeclaracionVariableSinValor,
       'AsignacionValor': nodos.AsignacionValor,
@@ -13,7 +13,16 @@
       'MultiplicacionYDivision':nodos.MultiplicacionYDivision,
       'Unaria':nodos.Unaria,
       'Agrupacion':nodos.Agrupacion,
-      'ReferenciaVariable':nodos.ReferenciaVariable
+      'ReferenciaVariable':nodos.ReferenciaVariable,
+      'TerminalesExpCadena':nodos.TerminalesExpCadena,
+      'ModIgualacion':nodos.ModIgualacion,
+      'Negacion':nodos.Negacion
+      
+
+
+
+
+
       
 
 
@@ -40,10 +49,34 @@ Sentencia = "System.out.println" _ "(" _ exp:Expresion _ expansion:(_"," extra:E
 Expresion = Asignacion
 
 Asignacion = id:Identificador _ "=" _ asig:Asignacion { return crearNodo('AsignacionValor',{id,asig})}//--
-        /Comparacion
+        / id:Identificador _ op:("+="/"-=") _ sum:Suma { return crearNodo('ModIgualacion',{id,op,sum})}//
+        / OperadoresLogicos
 
-Comparacion = izq:Suma expansion:(
-    _ op:("<=") _ der:Suma { return { tipo: op, der}}
+OperadoresLogicos=  izq:Comparacion expansion:(
+    _ op:("&&"/"||") _ der:Comparacion { return { tipo: op, der}}
+)* {
+    return expansion.reduce(
+        (operacionAnterior,operacionActual)=>{
+            const {tipo, der} = operacionActual
+            return crearNodo('OperacionLogica', {op: tipo, izq:operacionAnterior,der})//--
+        },
+        izq
+    )
+}
+Comparacion = izq:Relacionales expansion:(
+    _ op:("=="/"!=") _ der:Relacionales { return { tipo: op, der}}
+)* {
+    return expansion.reduce(
+        (operacionAnterior,operacionActual)=>{
+            const {tipo, der} = operacionActual
+            return crearNodo('OperacionLogica', {op: tipo, izq:operacionAnterior,der})//--
+        },
+        izq
+    )
+}
+
+Relacionales = izq:Suma expansion:(
+    _ op:("<="/">"/"<"/">="/"<=") _ der:Suma { return { tipo: op, der}}
 )* {
     return expansion.reduce(
         (operacionAnterior,operacionActual)=>{
@@ -79,13 +112,39 @@ Multiplicacion = izq:Unaria expansion:(
 }
 
 Unaria = "-" _ num:Numero { return crearNodo('Unaria', { op: '-', exp: num }) }//--
+/"!" _ num:Numero { return crearNodo('Negacion', { op: '-', exp: num }) }//--
 / Numero
 
-Numero = [0-9]+( "." [0-9]+ )? {return crearNodo('numero', { valor: parseFloat(text(), 10) })}//--
-  / "(" _ exp:Expresion _ ")" { return crearNodo('Agrupacion', { exp }) }//
-  / id:Identificador { return crearNodo('ReferenciaVariable', { id }) }//
-  
+Numero = 
+   "(" _ exp:Expresion _ ")" { return crearNodo('Agrupacion', { exp }) }//--
+  / !(Boolean) id:Identificador { return crearNodo('ReferenciaVariable', { id }) }//--
+  / [0-9]+"." [0-9]* {return crearNodo('TerminalesExp', { tipo:"Float",valor: parseFloat(text(), 10) })}//
+  /[0-9]+ {return crearNodo('TerminalesExp', {tipo:"Entero" ,valor: parseFloat(text(), 10) })}//
+  / String
+  / Char
+  / Boolean
 
+Boolean = "true" {return crearNodo('TerminalesExp',{tipo:"Boolean",valor:"true"})}//
+        / "false" {return crearNodo('TerminalesExp',{tipo:"Boolean",valor:"false"})}//  
+
+String = "\"" chars:Caracteres* "\"" { return crearNodo('TerminalesExpCadena', {tipo:"String", valor:chars}) }//
+
+Caracteres
+  = "\\" es:Escape { return es}
+  / !("\"") . {return text()}//Que venga de todo menos comias   
+
+Escape
+  = "n" { return "\n"; }
+  / "t" { return "\t"; }
+  / "r" { return "\r"; }
+  / "\"" { return "\""; }
+  / "\\" { return "\\"; }
+Char
+  = "'" char:Caracter "'" { return crearNodo('TerminalesExp',{tipo:"Char",valor:char}) }//
+
+Caracter
+  = "\\" es:Escape  { return es}
+  / !("'" / "\\") . {return text()}
 
 
 
@@ -97,7 +156,19 @@ Tipo=
   / "string" { return "string"; }
   / "boolean" { return "boolean"; }
   / "char" { return "char"; }
+  / "var" { return "var"}
 
 _ = ([ \t\n\r] / Comentarios)*
 Comentarios = "//" (![\n].)*  { return ""}
              / "/*" (!("*/").)* "*/" { return ""}
+
+Reservadas=
+    "int" 
+  / "float" 
+  / "string" 
+  / "boolean" 
+  / "char" 
+  / "var"
+  / "for"
+
+

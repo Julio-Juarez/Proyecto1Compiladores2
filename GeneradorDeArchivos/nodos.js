@@ -41,15 +41,23 @@ export class Expresion  {
     }
 }
     
-export class Numero extends Expresion {
+export class TerminalesExp extends Expresion {
 
     /**
     * @param {Object} options
-    * @param {number} options.valor Valor del numero
+    * @param {string} options.tipo Valor del numero
+ * @param {number} options.valor Valor del numero
     */
-    constructor({ valor }) {
+    constructor({ tipo, valor }) {
         super();
         
+        /**
+         * Valor del numero
+         * @type {string}
+        */
+        this.tipo = tipo;
+
+
         /**
          * Valor del numero
          * @type {number}
@@ -62,7 +70,7 @@ export class Numero extends Expresion {
      * @param {BaseVisitor} visitor
      */
     accept(visitor) {
-        return visitor.visitNumero(this);
+        return visitor.visitTerminalesExp(this);
     }
 }
     
@@ -412,4 +420,161 @@ export class OperacionUnaria extends Expresion {
     }
 }
     
-export default { Expresion, Numero, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor, Print, ExpresionSentencia, Bloque, OperacionLogica, SumaYResta, MultiplicacionYDivision, OperacionUnaria }
+export class Agrupacion extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.exp Expresion agrupada dentro parentisis
+    */
+    constructor({ exp }) {
+        super();
+        
+        /**
+         * Expresion agrupada dentro parentisis
+         * @type {Expresion}
+        */
+        this.exp = exp;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitAgrupacion(this);
+    }
+}
+    
+export class ReferenciaVariable extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {string} options.id Identificador de la variable
+    */
+    constructor({ id }) {
+        super();
+        
+        /**
+         * Identificador de la variable
+         * @type {string}
+        */
+        this.id = id;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitReferenciaVariable(this);
+    }
+}
+    
+export class TerminalesExpCadena extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {string} options.tipo tipo de cadena
+ * @param {char[]} options.valor Arreglo de cadena
+    */
+    constructor({ tipo, valor }) {
+        super();
+        
+        /**
+         * tipo de cadena
+         * @type {string}
+        */
+        this.tipo = tipo;
+
+
+        /**
+         * Arreglo de cadena
+         * @type {char[]}
+        */
+        this.valor = valor;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitTerminalesExpCadena(this);
+    }
+}
+    
+export class ModIgualacion extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {string} options.id nombre de la variable
+ * @param {string} options.op Operador de la operacion Modificacion Incre y Decre
+ * @param {Expresion} options.sum Expresion de nuevo valor
+    */
+    constructor({ id, op, sum }) {
+        super();
+        
+        /**
+         * nombre de la variable
+         * @type {string}
+        */
+        this.id = id;
+
+
+        /**
+         * Operador de la operacion Modificacion Incre y Decre
+         * @type {string}
+        */
+        this.op = op;
+
+
+        /**
+         * Expresion de nuevo valor
+         * @type {Expresion}
+        */
+        this.sum = sum;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitModIgualacion(this);
+    }
+}
+    
+export class Negacion extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.exp Expresion de la operacion Logica
+ * @param {string} options.op Operador de Negacion
+    */
+    constructor({ exp, op }) {
+        super();
+        
+        /**
+         * Expresion de la operacion Logica
+         * @type {Expresion}
+        */
+        this.exp = exp;
+
+
+        /**
+         * Operador de Negacion
+         * @type {string}
+        */
+        this.op = op;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitNegacion(this);
+    }
+}
+    
+export default { Expresion, TerminalesExp, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor, Print, ExpresionSentencia, Bloque, OperacionLogica, SumaYResta, MultiplicacionYDivision, OperacionUnaria, Agrupacion, ReferenciaVariable, TerminalesExpCadena, ModIgualacion, Negacion }
