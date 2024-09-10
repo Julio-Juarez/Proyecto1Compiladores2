@@ -20,7 +20,10 @@
       'If':nodos.If,
       'ElseIfExp': nodos.ElseIfExp,
       'While':nodos.While,
-      'For':nodos.For
+      'For':nodos.For,
+      'Break':nodos.Break,
+      'Continue':nodos.Continue,
+      'Return':nodos.Return
       
 
 
@@ -53,6 +56,9 @@ Sentencia = "System.out.println" _ "(" _ exp:Expresion _ expansion:(_"," extra:E
 / "for" _ "(" _ init:ForInit _ cond:Expresion _ ";" _ inc:Expresion _ ")" _ stmt:Sentencia {
       return crearNodo('For', { init, cond, inc, stmt })
     }
+/ "break" _ ";" { return crearNodo('Break') }
+/ "continue" _ ";" { return crearNodo('Continue') }
+/ "return" _ exp:Expresion? _ ";" { return crearNodo('Return', { exp }) }
 
 ForInit = dcl:DeclaracionVariable { return dcl }
         / exp:Expresion _ ";" { return exp }

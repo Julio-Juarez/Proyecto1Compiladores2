@@ -21,3 +21,4 @@ document.addEventListener('DOMContentLoaded', function () {
         lineNumbers.scrollTop = textarea.scrollTop;
     });
 });
+

@@ -741,4 +741,67 @@ export class For extends Expresion {
     }
 }
     
-export default { Expresion, TerminalesExp, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor, Print, ExpresionSentencia, Bloque, OperacionLogica, SumaYResta, MultiplicacionYDivision, OperacionUnaria, Agrupacion, ReferenciaVariable, TerminalesExpCadena, ModIgualacion, Negacion, If, ElseIfExp, While, For }
+export class Break extends Expresion {
+
+    /**
+    * @param {Object} options
+    * 
+    */
+    constructor({  }) {
+        super();
+        
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitBreak(this);
+    }
+}
+    
+export class Continue extends Expresion {
+
+    /**
+    * @param {Object} options
+    * 
+    */
+    constructor({  }) {
+        super();
+        
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitContinue(this);
+    }
+}
+    
+export class Return extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion|undefined} options.exp Expresion a retornar
+    */
+    constructor({ exp }) {
+        super();
+        
+        /**
+         * Expresion a retornar
+         * @type {Expresion|undefined}
+        */
+        this.exp = exp;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitReturn(this);
+    }
+}
+    
+export default { Expresion, TerminalesExp, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor, Print, ExpresionSentencia, Bloque, OperacionLogica, SumaYResta, MultiplicacionYDivision, OperacionUnaria, Agrupacion, ReferenciaVariable, TerminalesExpCadena, ModIgualacion, Negacion, If, ElseIfExp, While, For, Break, Continue, Return }

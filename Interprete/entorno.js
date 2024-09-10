@@ -15,9 +15,9 @@ export class Entorno {
      * @param {string} nombre
      * @param {any} valor
      */
-    setVariable(tipo,nombre, valor) {
+    setVariable(tipo,nombre, valor, fila, columna ) {
         //si algo ya esta declarado lanzar error
-        this.valores[nombre] = {tipo,valor};
+        this.valores[nombre] = {tipo,valor,fila,columna};
     }
 
     /**
@@ -43,8 +43,10 @@ export class Entorno {
         /*if (!this.valores[nombre]) {
             throw new Error(`Variable ${nombre} no definida`);
         }*/
+       
 
         const valorActual=this.valores[nombre];
+        const tipo = valorActual.tipo;
 
         if(valorActual != undefined){
             this.valores[nombre].valor=valor;

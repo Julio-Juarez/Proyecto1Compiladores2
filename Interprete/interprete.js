@@ -16,7 +16,7 @@ export class InterpreterVisitor extends BaseVisitor {
       * @type {BaseVisitor['visitNumero']}
       */
     visitNumero(node) {
-        return node.valor.accept(this);
+        return node.valor;
     }
 
     /**
