@@ -363,11 +363,11 @@ function peg$parse(input, options) {
   var peg$f33 = function(num) { return crearNodo('Negacion', { op: '-', exp: num }) };
   var peg$f34 = function(exp) { return crearNodo('Agrupacion', { exp }) };
   var peg$f35 = function(id) { return crearNodo('ReferenciaVariable', { id }) };
-  var peg$f36 = function() {return crearNodo('TerminalesExp', { tipo:"Float",valor: parseFloat(text(), 10) })};
-  var peg$f37 = function() {return crearNodo('TerminalesExp', {tipo:"Entero" ,valor: parseFloat(text(), 10) })};
-  var peg$f38 = function() {return crearNodo('TerminalesExp',{tipo:"Boolean",valor:"true"})};
-  var peg$f39 = function() {return crearNodo('TerminalesExp',{tipo:"Boolean",valor:"false"})};
-  var peg$f40 = function(chars) { return crearNodo('TerminalesExpCadena', {tipo:"String", valor:chars}) };
+  var peg$f36 = function() {return crearNodo('TerminalesExp', { tipo:"float",valor: parseFloat(text(), 10) })};
+  var peg$f37 = function() {return crearNodo('TerminalesExp', {tipo:"int" ,valor: parseFloat(text(), 10) })};
+  var peg$f38 = function() {return crearNodo('TerminalesExp',{tipo:"boolean",valor:"true"})};
+  var peg$f39 = function() {return crearNodo('TerminalesExp',{tipo:"boolean",valor:"false"})};
+  var peg$f40 = function(chars) { return crearNodo('TerminalesExpCadena', {tipo:"string", valor:chars}) };
   var peg$f41 = function(es) { return es};
   var peg$f42 = function() {return text()};
   var peg$f43 = function() { return "\n"; };
@@ -375,7 +375,7 @@ function peg$parse(input, options) {
   var peg$f45 = function() { return "\r"; };
   var peg$f46 = function() { return "\""; };
   var peg$f47 = function() { return "\\"; };
-  var peg$f48 = function(char) { return crearNodo('TerminalesExp',{tipo:"Char",valor:char}) };
+  var peg$f48 = function(char) { return crearNodo('TerminalesExp',{tipo:"char",valor:char}) };
   var peg$f49 = function(es) { return es};
   var peg$f50 = function() {return text()};
   var peg$f51 = function() { return text() };

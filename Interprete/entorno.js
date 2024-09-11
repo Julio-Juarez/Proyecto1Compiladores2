@@ -46,16 +46,24 @@ export class Entorno {
        
 
         const valorActual=this.valores[nombre];
-        const tipo = valorActual.tipo;
+        //const tipo = valorActual.tipo;
+        
+        console.log(this.valores[nombre]);
+        console.log(valor);
+        
 
         if(valorActual != undefined){
-            this.valores[nombre].valor=valor;
+            console.log(this.valores[nombre]);
+            this.valores[nombre].valor=valor.valor;
+            console.log(this.valores[nombre]);
+            
         }
         if (!valorActual && this.padre) {
+            console.log("entro al padre del entrono");
             this.padre.asignacionVariable(nombre,valor);
             return;
         }
         
-        throw new Error(`Variable ${nombre} no definida`);
+        //throw new Error(`Variable ${nombre} no definida`);
     }
 }

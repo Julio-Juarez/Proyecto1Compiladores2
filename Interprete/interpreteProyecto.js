@@ -54,7 +54,9 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
     const tipovariable = node.tipo;
     const nombreVariable = node.id;
     const valorVariable = node.exp.accept(this);
-    console.log(valorVariable);
+    //console.log("-------------------------------");
+    //console.log(valorVariable);
+    //console.log("-------------------------------");
     const fila = node.location.start.line;
     const columna = node.location.start.column;
 
@@ -97,6 +99,7 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
     const nombreVariable = node.id;
     const valorVariable = node.asig.accept(this);
 
+    //console.log(valorVariable);
     this.EntornoActual.asignacionVariable(nombreVariable, valorVariable);
 
     return valorVariable;
@@ -127,6 +130,13 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
    * @type {BaseVisitor['visitBloque']}
    */
   visitBloque(node) {
+      const entornoAnterior = this.EntornoActual;
+      this.EntornoActual = new Entorno(entornoAnterior);
+
+      console.log("-------Entro al bloque --------------------");
+      node.dcls.forEach((dcl) => dcl.accept(this));
+      console.log("-------Salgo al bloque --------------------");
+      this.EntornoActual = entornoAnterior;
     //throw new Error('Metodo visitBloque no implementado');
   }
 
@@ -148,49 +158,49 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
     switch (node.op) {
       case "==":
         let terminal = {
-          tipo: termIzq.valor,
+          tipo: "boolean",
           valor: termIzq.valor == termDer.valor,
         };
         return terminal;
       case "!=":
         let terminal2 = {
-          tipo: termIzq.valor,
+          tipo: "boolean",
           valor: termIzq.valor != termDer.valor,
         };
         return terminal2;
       case "<":
         let termina3 = {
-          tipo: termIzq.valor,
+          tipo: "boolean",
           valor: termIzq.valor < termDer.valor,
         };
         return termina3;
       case "<=":
         let terminal4 = {
-          tipo: termIzq.valor,
+          tipo: "boolean",
           valor: termIzq.valor <= termDer.valor,
         };
         return terminal4;
       case ">":
         let termina5 = {
-          tipo: termIzq.valor,
+          tipo: "boolean",
           valor: termIzq.valor > termDer.valor,
         };
         return termina5;
       case ">=":
         let terminal6 = {
-          tipo: termIzq.valor,
+          tipo: "boolean",
           valor: termIzq.valor >= termDer.valor,
         };
         return terminal6;
       case "&&":
         let termina7 = {
-          tipo: termIzq.valor,
+          tipo: "boolean",
           valor: termIzq.valor && termDer.valor,
         };
         return termina7;
       case "||":
         let terminal8 = {
-          tipo: termIzq.valor,
+          tipo: "boolean",
           valor: termIzq.valor || termDer.valor,
         };
         return terminal8;
@@ -218,13 +228,13 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
     switch (node.op) {
       case "+":
         let terminal = {
-          tipo: termIzq.valor,
+          tipo: termIzq.tipo,
           valor: termIzq.valor + termDer.valor,
         };
         return terminal;
       case "-":
         let terminal2 = {
-          tipo: termIzq.valor,
+          tipo: termIzq.tipo,
           valor: termIzq.valor - termDer.valor,
         };
         return terminal2;
@@ -252,13 +262,13 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
     switch (node.op) {
       case "*":
         let terminal = {
-          tipo: termIzq.valor,
+          tipo: termIzq.tipo,
           valor: termIzq.valor * termDer.valor,
         };
         return terminal;
       case "/":
         let terminal2 = {
-          tipo: termIzq.valor,
+          tipo: termIzq.tipo,
           valor: termIzq.valor / termDer.valor,
         };
         return terminal2;
@@ -303,10 +313,10 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
   visitReferenciaVariable(node) {
     //retorna el valor de una variable por su id
     const nombreVariable = node.id;
-    console.log(node.id);
-    console.log(this.EntornoActual.valores);
+    console.log(node.id+ "referencia");
+    //console.log(this.EntornoActual.valores);
     const objeto22= this.EntornoActual.getVariable(nombreVariable);
-    console.log(objeto22);
+    //console.log(objeto22);
     return {tipo:objeto22.tipo,valor:objeto22.valor}
 
     //throw new Error('Metodo visitReferenciaVariable no implementado');
@@ -330,6 +340,24 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
    * @type {BaseVisitor['visitIf']}
    */
   visitIf(node) {
+        const cond = node.cond.accept(this);
+
+        if (cond.valor) {
+          console.log("if-----------------------------------------%$");
+            node.stmtIf.accept(this);
+            return;
+        }
+        /*for(let a=0;a<node.stmtIfElse.length();a++){
+          console.log("----- conjunto de else if-------");
+          node.stmtIfElse.accept(this)
+
+        }*/
+       node.stmtIfElse.forEach(dcl => dcl.accept(this));
+
+        if (node.stmtFalse) {
+          console.log("-----------else -------------------");
+            node.stmtFalse.accept(this);
+        }
     //throw new Error('Metodo visitIf no implementado');
   }
 
@@ -337,14 +365,99 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
    * @type {BaseVisitor['visitElseIfExp']}
    */
   visitElseIfExp(node) {
+    console.log("else if");
+    const cond = node.cond.accept(this);
+
+    if (cond.valor) {
+      node.stmtElseIf.accept(this);
+      return;
+      }
     //throw new Error('Metodo visitElseIfExp no implementado');
   }
 
-  visitWhile(node) {
+   /**
+   * @type {BaseVisitor['visitWhile']}
+   */
+   visitWhile(node) {
+    const entornoConElQueEmpezo = this.EntornoActual;
+    /*console.log("------------------aqui empieza el while-----------");
+   
+    console.log(node.cond.accept(this).valor +"-------------------condicion");
+
+    console.log(node.stmt.accept(this));
+    console.log(node.stmt.accept(this));
+    console.log(node.stmt.accept(this));
+    console.log(node.stmt.accept(this));
+
+    console.log(node.cond.accept(this).valor+"-------------------condicion");
+    console.log("------------------aqui termina el while-----------");
+
+*/
+        try {
+            while (node.cond.accept(this).valor) {
+                node.stmt.accept(this);
+            }
+            this.EntornoActual=entornoConElQueEmpezo;
+        } catch (error) {
+            this.EntornoActual = entornoConElQueEmpezo;
+
+            if (error instanceof BreakException) {
+                console.log('break');
+                return
+            }
+
+            if (error instanceof ContinueException) {
+                return this.visitWhile(node);
+            }
+
+            throw error;
+
+        }
     //throw new Error('Metodo visitWhile no implementado');
   }
 
+  /**
+   * @type {BaseVisitor['visitFor']}
+   */
   visitFor(node) {
+
+    
+
     //throw new Error('Metodo visitFor no implementado');
   }
+
+  /**
+   * @type {BaseVisitor['visitBreak']}
+   */
+  visitBreak(node) {
+    throw new BreakException();
+    //throw new Error('Metodo visitBreak no implementado');
+}
+
+
+/**
+   * @type {BaseVisitor['visitContinue']}
+   */
+visitContinue(node) {
+    if (this.prevContinue) {
+        this.prevContinue.accept(this);
+    }
+
+    throw new ContinueException();
+    //throw new Error('Metodo visitContinue no implementado');
+}
+
+
+/**
+   * @type {BaseVisitor['visitReturn']}
+   */
+visitReturn(node) {
+    let valor = null
+        if (node.exp) {
+            valor = node.exp.accept(this);
+        }
+        throw new ReturnException(valor);
+
+    //throw new Error('Metodo visitReturn no implementado');
+}
 }

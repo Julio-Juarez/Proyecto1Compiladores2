@@ -1,4 +1,4 @@
-function updateLineNumbers() {
+/*function updateLineNumbers() {
     const textarea = document.getElementById('editor');
     const lineNumbers = document.getElementById('lineNumbers');
     const lines = textarea.value.split('\n').length;
@@ -22,3 +22,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+*/

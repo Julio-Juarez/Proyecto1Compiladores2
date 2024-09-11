@@ -22,7 +22,7 @@ const EditorMonaco = monaco.editor.create(
 btn.addEventListener('click', () => {
 
     
-    const codigoFuente = EditorMonaco.getValue()
+    const codigoFuente = EditorMonaco.getValue();
     const sentencias = parse(codigoFuente)
     //ast.innerHTML = JSON.stringify(sentencias, null, 2)
 
@@ -102,3 +102,19 @@ document.getElementById('archivo').addEventListener('change', function() {
         alert("Por favor, selecciona un archivo .oak");
     }
 });
+
+
+const GuardarArchivos = document.getElementById('btnGuardar')
+
+GuardarArchivos.addEventListener('click', () => {
+    const contenido = EditorMonaco.getValue();
+            const blob = new Blob([contenido], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "archivo.oak";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+});
+

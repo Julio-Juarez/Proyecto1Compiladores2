@@ -45,7 +45,7 @@ body {
   .div20 {
     flex: 0 0 20%;           /* Este div ocupa el 20% del ancho */
     display: grid;
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
     gap: 10px;
     padding: 10px;
     border-radius: 20px;

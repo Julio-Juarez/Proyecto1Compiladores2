@@ -138,16 +138,16 @@ Unaria = "-" _ num:Numero { return crearNodo('Unaria', { op: '-', exp: num }) }/
 Numero = 
    "(" _ exp:Expresion _ ")" { return crearNodo('Agrupacion', { exp }) }//--
   / !(Boolean) id:Identificador { return crearNodo('ReferenciaVariable', { id }) }//--
-  / [0-9]+"." [0-9]* {return crearNodo('TerminalesExp', { tipo:"Float",valor: parseFloat(text(), 10) })}//
-  / [0-9]+ {return crearNodo('TerminalesExp', {tipo:"Entero" ,valor: parseFloat(text(), 10) })}//
+  / [0-9]+"." [0-9]* {return crearNodo('TerminalesExp', { tipo:"float",valor: parseFloat(text(), 10) })}//
+  / [0-9]+ {return crearNodo('TerminalesExp', {tipo:"int" ,valor: parseFloat(text(), 10) })}//
   / String
   / Char
   / Boolean
 
-Boolean = "true" {return crearNodo('TerminalesExp',{tipo:"Boolean",valor:"true"})}//
-        / "false" {return crearNodo('TerminalesExp',{tipo:"Boolean",valor:"false"})}//  
+Boolean = "true" {return crearNodo('TerminalesExp',{tipo:"boolean",valor:"true"})}//
+        / "false" {return crearNodo('TerminalesExp',{tipo:"boolean",valor:"false"})}//  
 
-String = "\"" chars:Caracteres* "\"" { return crearNodo('TerminalesExpCadena', {tipo:"String", valor:chars}) }//
+String = "\"" chars:Caracteres* "\"" { return crearNodo('TerminalesExpCadena', {tipo:"string", valor:chars}) }//
 
 Caracteres
   = "\\" es:Escape { return es}
@@ -160,7 +160,7 @@ Escape
   / "\"" { return "\""; }
   / "\\" { return "\\"; }
 Char
-  = "'" char:Caracter "'" { return crearNodo('TerminalesExp',{tipo:"Char",valor:char}) }//
+  = "'" char:Caracter "'" { return crearNodo('TerminalesExp',{tipo:"char",valor:char}) }//
 
 Caracter
   = "\\" es:Escape  { return es}
