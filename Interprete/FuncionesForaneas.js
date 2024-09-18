@@ -46,6 +46,8 @@ export class FuncionForanea extends Invocable{
 
         const entornoAntesDeLaLlamada = interprete.EntornoActual;
         interprete.EntornoActual=entornoNuevo;
+        const nombreAnterior=interprete.EntornoActual.nombreEntorno
+        interprete.EntornoActual.nombreEntorno= this.nodo.id;
 
         try {
             this.nodo.bloque.accept(interprete);

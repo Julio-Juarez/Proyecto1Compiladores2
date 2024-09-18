@@ -11,6 +11,7 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
     super();
     this.EntornoActual = new Entorno();
     this.SalidaInterprete = "";
+    this.tabla=[];
 
     // funciones enbebidas
 
@@ -28,6 +29,32 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
   Interpretar(nodo) {
     return nodo.accept(this);
   }
+
+  //---------------------------------------------------------
+  ingresoTabla(id, tiposimbolo, tipoDato, ambito, linea, columna) {
+   
+    // Crear el objeto que representa la entrada
+    const entrada = {
+        id: id.trim(),
+        tipo: tiposimbolo.trim(),
+        tipoDato: tipoDato.trim(),
+        ambito: ambito.trim(),
+        linea: linea,
+        columna: columna
+    };
+
+    // Agregar la entrada al arreglo tabla
+    this.tabla.push(entrada);
+    console.log("Entrada agregada:", entrada);
+    //this.generarTablaHTML(); // Actualizar la tabla en el HTML
+}
+
+
+
+  //----------------------------------------------------------
+
+
+
 
   // int float boolean char
   /**
@@ -74,8 +101,9 @@ export class InterpreterVisitorProyecto extends BaseVisitor {
     //console.log("-------------------------------");
     const fila = node.location.start.line;
     const columna = node.location.start.column;
+    this.ingresoTabla(nombreVariable, "Variable", tipovariable, this.EntornoActual.nombreEntorno, fila, columna);
 
-    
+    console.log(this.tabla);
       this.EntornoActual.setVariable(
         tipovariable,
         nombreVariable,
@@ -805,11 +833,13 @@ visitLlamada(node) {
    */
  visitDeclaracioFuncion(node) {
   console.log(node);
-  
+  this.ingresoTabla(node.id, "Funcion", node.tipo, this.EntornoActual.nombreEntorno, node.location.start.line, node.location.start.column);
+
   const funcion = new FuncionForanea(node, this.EntornoActual);
   this.EntornoActual.setFuncion(node.tipo,node.id,funcion)
-  console.log("22222222222222222222222222");
-  console.log(funcion);
+  //console.log("22222222222222222222222222");
+  //console.log(funcion);
+  
 
   //throw new Error('Metodo visitDeclaracioFuncion no implementado');
 }

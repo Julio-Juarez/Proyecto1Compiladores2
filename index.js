@@ -11,6 +11,7 @@ const btn = document.getElementById('aje')
 const ast = document.getElementById('ast')
 const salida = document.getElementById('salida')
 
+
 const EditorMonaco = monaco.editor.create(
     document.getElementById('editor1'), {
     value: '',
@@ -34,11 +35,46 @@ btn.addEventListener('click', () => {
     for (const sentencia of sentencias) {
          sentencia.accept(interprete)
      }
+     console.log("-----&&&&------");
     console.log({ sentencias })
+    console.log("----------&&&--------)");
     
     //sentencias.forEach(sentencia => sentencia.accept(interprete))
 
     salida.innerHTML = interprete.SalidaInterprete
+    let tabla=interprete.tabla;
+    let tablaHTML = `
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>TipoSímbolo</th>
+                        <th>TipoDato</th>
+                        <th>Ámbito</th>
+                        <th>Línea</th>
+                        <th>Columna</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+        // Iteramos sobre cada entrada en la tabla para generar las filas
+        tabla.forEach((entrada) => {
+            tablaHTML += `
+                <tr>
+                    <td>${entrada.id}</td>
+                    <td>${entrada.tipo}</td>
+                    <td>${entrada.tipoDato}</td>
+                    <td>${entrada.ambito}</td>
+                    <td>${entrada.linea}</td>
+                    <td>${entrada.columna}</td>
+                </tr>`;
+        });
+
+        // Cerramos la tabla
+        tablaHTML += `
+                </tbody>
+            </table>`;
+    document.getElementById("tabSim").innerHTML = tablaHTML;
       
     //ast.innerHTML = JSON.stringify(sentencias, null, 2)
     
