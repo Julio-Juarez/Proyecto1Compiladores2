@@ -773,8 +773,7 @@ visitReturn(node) {
    */
 visitLlamada(node) {
   console.log("Entre a la llamada de funcion");
-  const funcion = node.callee.accept(this);
-
+  const funcion = node.callee.accept(this);//nombre
   console.log(funcion);
 
   const argumentos = node.args.map(arg =>arg.accept(this));

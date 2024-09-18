@@ -150,7 +150,7 @@ Multiplicacion = izq:Unaria expansion:(
     )
 }
 
-Unaria = "-" _ num:Numero { return crearNodo('Unaria', { op: '-', exp: num }) }//--
+Unaria = "-" _ num:Unaria { return crearNodo('Unaria', { op: '-', exp: num }) }//--
 /"!" _ num:Numero { return crearNodo('Negacion', { op: '-', exp: num }) }//--
 / Llamada
 

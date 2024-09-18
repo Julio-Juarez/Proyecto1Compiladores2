@@ -29,13 +29,17 @@ export class FuncionForanea extends Invocable{
      * @type {Invocable['invocar']}
      */
     invocar(interprete, args){
+        console.log("--------------Argumentos ---------------");
+        console.log(args);
+        console.log("----------------------------------------");
+       
         const entornoNuevo=new Entorno(this.clousure)
         console.log("33333333333333333333333-------------------");
         this.nodo.params.forEach((param,i)=>{
             console.log(param);
             console.log(i);
             //(tipo,nombre, valor, fila, columna )
-            entornoNuevo.setVariable("int",param,args[i],1,2);
+            entornoNuevo.setVariable("int",param.id,args[i],1,2);
 
 
         });
@@ -58,12 +62,9 @@ export class FuncionForanea extends Invocable{
                 console.log(error.value);
                 console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-                if (error.value.valor!=undefined) {
-                    return error.value.valor
-                    
-                } else {
+               
                     return error.value
-                }
+                
                 
 
             }
