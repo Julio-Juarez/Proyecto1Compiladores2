@@ -8,6 +8,7 @@ export class Entorno {
     constructor(padre=undefined) {
         this.valores = {};
         this.padre=padre;
+        this.nombreEntorno="Global";
     }
 
     /**

@@ -23,6 +23,8 @@ btn.addEventListener('click', () => {
 
     
     const codigoFuente = EditorMonaco.getValue();
+
+    try{
     const sentencias = parse(codigoFuente)
     //ast.innerHTML = JSON.stringify(sentencias, null, 2)
 
@@ -40,11 +42,11 @@ btn.addEventListener('click', () => {
       
     //ast.innerHTML = JSON.stringify(sentencias, null, 2)
     
-    //} catch (error) {
+    } catch (error) {
 
-        //console.log(error);
-        //const linea=error.location.start.line
-        /*const column=error.location.start.column
+        console.log(error);
+        const linea=error.location.start.line
+        const column=error.location.start.column
       
         const tablaErroresHTML = `
         <table>
@@ -69,8 +71,8 @@ btn.addEventListener('click', () => {
     `;
     document.getElementById("tabla-errores").innerHTML = tablaErroresHTML;
 
-        */
-   // }
+        
+    }
     
     
 })
