@@ -747,7 +747,7 @@ export class Break extends Expresion {
     * @param {Object} options
     * 
     */
-    constructor({  }) {
+    constructor() {
         super();
         
     }
@@ -766,7 +766,7 @@ export class Continue extends Expresion {
     * @param {Object} options
     * 
     */
-    constructor({  }) {
+    constructor() {
         super();
         
     }
@@ -804,4 +804,119 @@ export class Return extends Expresion {
     }
 }
     
-export default { Expresion, TerminalesExp, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor, Print, ExpresionSentencia, Bloque, OperacionLogica, SumaYResta, MultiplicacionYDivision, OperacionUnaria, Agrupacion, ReferenciaVariable, TerminalesExpCadena, ModIgualacion, Negacion, If, ElseIfExp, While, For, Break, Continue, Return }
+export class Llamada extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {Expresion} options.callee Expresion a llamar
+ * @param {Expresion[]} options.args Argumentos de la llamada
+    */
+    constructor({ callee, args }) {
+        super();
+        
+        /**
+         * Expresion a llamar
+         * @type {Expresion}
+        */
+        this.callee = callee;
+
+
+        /**
+         * Argumentos de la llamada
+         * @type {Expresion[]}
+        */
+        this.args = args;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitLlamada(this);
+    }
+}
+    
+export class DeclaracioFuncion extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {string} options.tipo identificador tipo de retorno de la funcion
+ * @param {string} options.id identificador de la funcion
+ * @param {string[]} options.params Parametros de la Funcion
+ * @param {Bloque} options.bloque Cuerpo de la funcion
+    */
+    constructor({ tipo, id, params, bloque }) {
+        super();
+        
+        /**
+         * identificador tipo de retorno de la funcion
+         * @type {string}
+        */
+        this.tipo = tipo;
+
+
+        /**
+         * identificador de la funcion
+         * @type {string}
+        */
+        this.id = id;
+
+
+        /**
+         * Parametros de la Funcion
+         * @type {string[]}
+        */
+        this.params = params;
+
+
+        /**
+         * Cuerpo de la funcion
+         * @type {Bloque}
+        */
+        this.bloque = bloque;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitDeclaracioFuncion(this);
+    }
+}
+    
+export class Enbebida extends Expresion {
+
+    /**
+    * @param {Object} options
+    * @param {string} options.id Argumentos de la llamada
+ * @param {Expresion} options.exp Expresion a Transformar
+    */
+    constructor({ id, exp }) {
+        super();
+        
+        /**
+         * Argumentos de la llamada
+         * @type {string}
+        */
+        this.id = id;
+
+
+        /**
+         * Expresion a Transformar
+         * @type {Expresion}
+        */
+        this.exp = exp;
+
+    }
+
+    /**
+     * @param {BaseVisitor} visitor
+     */
+    accept(visitor) {
+        return visitor.visitEnbebida(this);
+    }
+}
+    
+export default { Expresion, TerminalesExp, DeclaracionVariable, DeclaracionVariableSinValor, AsignacionValor, Print, ExpresionSentencia, Bloque, OperacionLogica, SumaYResta, MultiplicacionYDivision, OperacionUnaria, Agrupacion, ReferenciaVariable, TerminalesExpCadena, ModIgualacion, Negacion, If, ElseIfExp, While, For, Break, Continue, Return, Llamada, DeclaracioFuncion, Enbebida }

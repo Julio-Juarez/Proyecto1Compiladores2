@@ -72,6 +72,15 @@
 
  * @typedef {import('./nodos').Return} Return
 
+
+ * @typedef {import('./nodos').Llamada} Llamada
+
+
+ * @typedef {import('./nodos').DeclaracioFuncion} DeclaracioFuncion
+
+
+ * @typedef {import('./nodos').Enbebida} Enbebida
+
  */
 
 
@@ -295,6 +304,33 @@ export class BaseVisitor {
      */
     visitReturn(node) {
         throw new Error('Metodo visitReturn no implementado');
+    }
+    
+
+    /**
+     * @param {Llamada} node
+     * @returns {any}
+     */
+    visitLlamada(node) {
+        throw new Error('Metodo visitLlamada no implementado');
+    }
+    
+
+    /**
+     * @param {DeclaracioFuncion} node
+     * @returns {any}
+     */
+    visitDeclaracioFuncion(node) {
+        throw new Error('Metodo visitDeclaracioFuncion no implementado');
+    }
+    
+
+    /**
+     * @param {Enbebida} node
+     * @returns {any}
+     */
+    visitEnbebida(node) {
+        throw new Error('Metodo visitEnbebida no implementado');
     }
     
 }

@@ -12,6 +12,15 @@ export class Entorno {
 
     /**
      * @param {string} tipo
+     * @param {any} valor
+     */
+    setFuncion(tipo,nombre, valor) {
+        //si algo ya esta declarado lanzar error
+        this.valores[nombre] = {tipo,valor};
+    }
+
+    /**
+     * @param {string} tipo
      * @param {string} nombre
      * @param {any} valor
      */
